@@ -35,7 +35,7 @@ public class NetworkService {
      */
     public static SimSimiAPI getAPI(Context context) {
         if (API_INSTANCE == null) {
-            RestAdapter restAdapter = getCustomRestAdapter(context.getApplicationContext(), "http://sandbox.api.simsimi.com/", new GsonConverter(gson));
+            RestAdapter restAdapter = getCustomRestAdapter(context.getApplicationContext(), "http://www.personalityforge.com/", new GsonConverter(gson));
             API_INSTANCE = restAdapter.create(SimSimiAPI.class);
         }
 

@@ -16,6 +16,7 @@ import com.codesgood.espressoworkshop.adapters.ChatAdapter;
 import com.codesgood.espressoworkshop.models.ChatMessage;
 import com.codesgood.espressoworkshop.network.NetworkService;
 import com.codesgood.espressoworkshop.network.models.Answer;
+import com.codesgood.espressoworkshop.network.models.PersonalityAnswer;
 
 import java.util.ArrayList;
 
@@ -68,11 +69,11 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         mRecycler.scrollToPosition(mAdapter.getItemCount() - 1);
                     }
 
-                    NetworkService.getAPI(getActivity()).getAnswer("en", newMessage, new Callback<Answer>() {
+                    NetworkService.getAPI(getActivity()).getAnswerPersonality("en", newMessage, new Callback<PersonalityAnswer>() {
                         @Override
-                        public void success(Answer answer, Response response) {
-                            Log.d(TAG, answer.getMsg());
-                            mMessages.add(new ChatMessage("Bot", answer.getResponse()));
+                        public void success(PersonalityAnswer answer, Response response) {
+                            Log.d(TAG, answer.getMessage().getMessage());
+                            mMessages.add(new ChatMessage("Bot", answer.getMessage().getMessage()));
                             mAdapter.notifyDataSetChanged();
                             mRecycler.scrollToPosition(mAdapter.getItemCount() - 1);
                         }
