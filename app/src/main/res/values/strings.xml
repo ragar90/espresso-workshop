@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Espresso Workshop</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="user_name">User Name</string>
+    <string name="clear_chat">Clear Chat</string>
 </resources>

@@ -20,7 +20,7 @@ import retrofit.converter.GsonConverter;
 
 public class NetworkService {
 
-    private static SimSimiAPI API_INSTANCE;
+    private static BotAPI API_INSTANCE;
     private static Gson gson = new Gson();
 
     public static Gson getGson() {
@@ -33,10 +33,10 @@ public class NetworkService {
      * @param context Context
      * @return {#FeedAPI}
      */
-    public static SimSimiAPI getAPI(Context context) {
+    public static BotAPI getAPI(Context context) {
         if (API_INSTANCE == null) {
             RestAdapter restAdapter = getCustomRestAdapter(context.getApplicationContext(), "http://www.personalityforge.com/", new GsonConverter(gson));
-            API_INSTANCE = restAdapter.create(SimSimiAPI.class);
+            API_INSTANCE = restAdapter.create(BotAPI.class);
         }
 
         return API_INSTANCE;

@@ -5,34 +5,36 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Created by Amilcar on 4/28/16.
+ */
 public class Answer implements Parcelable {
+    @SerializedName("success")
+    private Long mSuccess;
 
-    @SerializedName("result")
-    private int mResult;
+    @SerializedName("errorType")
+    private String mErrorType;
 
-    @SerializedName("id")
-    private int mId;
+    @SerializedName("errorMessage")
+    private String mErrorMessage;
 
-    @SerializedName("response")
-    private String mResponse;
+    @SerializedName("message")
+    private Message mMessage;
 
-    @SerializedName("msg")
-    private String mMsg;
-
-    public int getResult() {
-        return mResult;
+    public Long getSuccess() {
+        return mSuccess;
     }
 
-    public int getId() {
-        return mId;
+    public String getErrorType() {
+        return mErrorType;
     }
 
-    public String getResponse() {
-        return mResponse;
+    public String getErrorMessage() {
+        return mErrorMessage;
     }
 
-    public String getMsg() {
-        return mMsg;
+    public Message getMessage() {
+        return mMessage;
     }
 
     @Override
@@ -42,20 +44,20 @@ public class Answer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.mResult);
-        dest.writeInt(this.mId);
-        dest.writeString(this.mResponse);
-        dest.writeString(this.mMsg);
+        dest.writeValue(this.mSuccess);
+        dest.writeString(this.mErrorType);
+        dest.writeString(this.mErrorMessage);
+        dest.writeParcelable(this.mMessage, flags);
     }
 
     public Answer() {
     }
 
     protected Answer(Parcel in) {
-        this.mResult = in.readInt();
-        this.mId = in.readInt();
-        this.mResponse = in.readString();
-        this.mMsg = in.readString();
+        this.mSuccess = (Long) in.readValue(Long.class.getClassLoader());
+        this.mErrorType = in.readString();
+        this.mErrorMessage = in.readString();
+        this.mMessage = in.readParcelable(Message.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Answer> CREATOR = new Parcelable.Creator<Answer>() {

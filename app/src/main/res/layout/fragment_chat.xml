@@ -2,7 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/username_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/user_name" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/edit_username_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/edit"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_recycler"
@@ -26,11 +56,11 @@
                 android:id="@+id/new_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type a message" />
+                android:hint="@string/type_a_message" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/send_message"
+            android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"

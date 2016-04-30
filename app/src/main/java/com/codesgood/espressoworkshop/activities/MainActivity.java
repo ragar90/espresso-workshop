@@ -1,5 +1,6 @@
 package com.codesgood.espressoworkshop.activities;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
@@ -7,8 +8,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.codesgood.espressoworkshop.R;
 import com.codesgood.espressoworkshop.fragments.ChatFragment;
@@ -44,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setTitle(null);
-            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -88,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             mDrawerToggle.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);

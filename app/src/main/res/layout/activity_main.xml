@@ -33,11 +33,13 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/darkBrown"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_white"
+            android:layout_margin="24dp"
             android:scaleType="center"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ic_espresso_icon" />
 
         <TextView
             style="@style/DrawerMenuItemStyle"
