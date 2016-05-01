@@ -8,8 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,7 +19,7 @@ import com.codesgood.espressoworkshop.fragments.SplashFragment;
 public class MainActivity extends AppCompatActivity {
 
     private final static int DISMISS_SPLASH = 1;
-    private final static int SPLASH_DELAY = 3000;
+    private final static int SPLASH_DELAY = 0;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private SplashFragment mSplashFragment;
@@ -36,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
+    public interface BotListener {
+        public void onMessageReceived();
+        public void onMessageSent();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -75,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.addDrawerListener(mDrawerToggle);
         }
 
+        View aboutOption = findViewById(R.id.about_option);
+        if (aboutOption != null) {
+            aboutOption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(AboutActivity.getInstance(MainActivity.this));
+                }
+            });
+        }
+
         if (savedInstanceState == null) {
             mSplashFragment = SplashFragment.getInstance();
             mSplashFragment.show(getSupportFragmentManager(), SplashFragment.TAG);
@@ -92,11 +106,17 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             View view = this.getCurrentFocus();
             if (view != null) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
             mDrawerToggle.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setListener(BotListener listener) {
+        ChatFragment fragment = (ChatFragment) getSupportFragmentManager().findFragmentByTag(ChatFragment.TAG);
+        if (fragment != null)
+            fragment.setListener(listener);
     }
 }

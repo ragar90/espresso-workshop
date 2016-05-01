@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.codesgood.espressoworkshop.R;
+import com.codesgood.espressoworkshop.activities.MainActivity;
 import com.codesgood.espressoworkshop.adapters.ChatAdapter;
 import com.codesgood.espressoworkshop.models.ChatMessage;
 import com.codesgood.espressoworkshop.network.NetworkService;
@@ -46,6 +47,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton mEditButton;
     private FloatingActionButton mSendButton;
     private boolean mIsEditing;
+    private MainActivity.BotListener mListener;
 
     public static ChatFragment getInstance() {
         return new ChatFragment();
@@ -104,20 +106,24 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         mRecycler.scrollToPosition(mAdapter.getItemCount() - 1);
                     }
 
-                    NetworkService.getAPI(getActivity()).getAnswerPersonality(mUsername, newMessage, new Callback<Answer>() {
+                    notifyBotListener(true);
+                    NetworkService.getAPI(getActivity()).getAnswerPersonality(mUsername != null ? mUsername : "random_user", newMessage, new Callback<Answer>() {
                         @Override
                         public void success(Answer answer, Response response) {
-                            Log.d(TAG, answer.getMessage().getMessage());
-                            mMessages.add(new ChatMessage("Bot", answer.getMessage().getMessage()));
-                            mAdapter.notifyDataSetChanged();
-                            mRecycler.scrollToPosition(mAdapter.getItemCount() - 1);
+                            if (answer.getMessage() != null) {
+                                mMessages.add(new ChatMessage("Bot", answer.getMessage().getMessage()));
+                                mAdapter.notifyDataSetChanged();
+                                mRecycler.scrollToPosition(mAdapter.getItemCount() - 1);
+                            }
                             mSendButton.setEnabled(true);
+                            notifyBotListener(false);
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
                             Log.e(TAG, error.getMessage());
                             mSendButton.setEnabled(true);
+                            notifyBotListener(false);
                         }
                     });
                 }
@@ -136,6 +142,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void notifyBotListener(boolean sendingMessage) {
+        if (mListener != null){
+            if(sendingMessage)
+                mListener.onMessageSent();
+            else
+                mListener.onMessageReceived();
         }
     }
 
@@ -158,5 +173,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             getActivity().supportInvalidateOptionsMenu();
         }
         return false;
+    }
+
+    public void setListener(MainActivity.BotListener mListener) {
+        this.mListener = mListener;
     }
 }
