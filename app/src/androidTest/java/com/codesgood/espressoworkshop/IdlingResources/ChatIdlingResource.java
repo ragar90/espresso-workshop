@@ -1,26 +1,27 @@
-package com.codesgood.espressoworkshop.SampleTests;
+package com.codesgood.espressoworkshop.IdlingResources;
 
 import android.support.test.espresso.IdlingResource;
 
 import com.codesgood.espressoworkshop.activities.MainActivity;
 
 /**
- * Created by Amilcar on 5/1/16.
+ * @author Amilcar Serrano
+ * @since 4/30/16
  */
-public class RecyclerIdlingResource implements IdlingResource, MainActivity.BotListener {
+public class ChatIdlingResource implements IdlingResource, MainActivity.BotListener {
 
     private MainActivity mActivity;
     private boolean mMessageReceived = false;
     private ResourceCallback callback;
 
-    public RecyclerIdlingResource(MainActivity activity) {
+    public ChatIdlingResource(MainActivity activity) {
         mActivity = activity;
         mActivity.setListener(this);
     }
 
     @Override
     public String getName() {
-        return RecyclerIdlingResource.class.getName();
+        return ChatIdlingResource.class.getName();
     }
 
     @Override

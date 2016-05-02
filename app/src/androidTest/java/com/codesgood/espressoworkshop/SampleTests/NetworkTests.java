@@ -9,6 +9,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.codesgood.espressoworkshop.IdlingResources.ChatIdlingResource;
 import com.codesgood.espressoworkshop.R;
 import com.codesgood.espressoworkshop.activities.MainActivity;
 
@@ -41,7 +42,7 @@ public class NetworkTests {
 
     private String mMessage;
     private String mUserName;
-    private RecyclerIdlingResource mIdleResource;
+    private ChatIdlingResource mIdleResource;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
@@ -50,13 +51,14 @@ public class NetworkTests {
     @Before
     public void initValidString() {
         // Specify a valid string.
-        mMessage = "Hello";
-        mUserName = "Network_test_user";
+        mMessage = "Sorry I got stuck in a loop";
+        mUserName = "Network_test";
     }
 
     @Test
     public void receiveMessageTest() {
         //Set username
+
         onView(withId(R.id.username_text)).perform(typeText(mUserName), closeSoftKeyboard());
         onView(withId(R.id.edit_username_button)).perform(click());
 
@@ -70,13 +72,12 @@ public class NetworkTests {
         //Sending message and checking added response
         onView(withId(R.id.send_button)).perform(click());
 
-        mIdleResource = new RecyclerIdlingResource(mActivityRule.getActivity());
+        mIdleResource = new ChatIdlingResource(mActivityRule.getActivity());
         Espresso.registerIdlingResources(mIdleResource);
 
         onView(withId(R.id.chat_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.chat_recycler)).check(matches(hasDescendant(withText(mMessage))));
     }
-
 
     @After
     public void unregisterIntentServiceIdlingResource() {

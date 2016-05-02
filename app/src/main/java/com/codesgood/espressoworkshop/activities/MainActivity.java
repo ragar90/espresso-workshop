@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     });
 
     public interface BotListener {
-        public void onMessageReceived();
-        public void onMessageSent();
+        void onMessageReceived();
+        void onMessageSent();
     }
 
     @Override

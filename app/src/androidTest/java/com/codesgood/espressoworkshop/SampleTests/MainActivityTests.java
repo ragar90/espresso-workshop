@@ -1,20 +1,18 @@
 package com.codesgood.espressoworkshop.SampleTests;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.codesgood.espressoworkshop.R;
+import com.codesgood.espressoworkshop.activities.AboutActivity;
 import com.codesgood.espressoworkshop.activities.MainActivity;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +24,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -46,13 +46,13 @@ public class MainActivityTests {
     private String mUserName;
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
+    public IntentsTestRule<MainActivity> mActivityRule = new IntentsTestRule<>(
             MainActivity.class);
 
     @Before
     public void initValidString() {
         // Specify a valid string.
-        mMessage = "Knights are cool";
+        mMessage = "Sorry I got stuck in a lopp";
         mUserName = "Test_user";
     }
 
@@ -82,7 +82,6 @@ public class MainActivityTests {
         onView(withId(R.id.chat_recycler)).check(matches(hasDescendant(withText(mMessage))));
     }
 
-
     @Test
     public void openDrawerTest() {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
@@ -93,6 +92,8 @@ public class MainActivityTests {
     public void openAboutTest() {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.about_option)).perform(click());
+
+        intended(hasComponent(AboutActivity.class.getName()));
         onView(withId(R.id.image_header)).check(matches(isEnabled()));
     }
 

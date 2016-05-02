@@ -13,11 +13,10 @@ import com.bumptech.glide.Glide;
 import com.codesgood.espressoworkshop.R;
 
 /**
- * Created by Amilcar on 4/30/16.
+ * @author Amilcar Serrano
+ * @since  4/30/16.
  */
 public class AboutActivity extends AppCompatActivity {
-
-    private ImageView mHeaderImage;
 
     public static Intent getInstance(Context context){
         return new Intent(context, AboutActivity.class);
@@ -39,9 +38,9 @@ public class AboutActivity extends AppCompatActivity {
             getSupportActionBar().setLogo(R.drawable.ic_espresso_icon);
         }
 
-        mHeaderImage = (ImageView) findViewById(R.id.image_header);
+        ImageView headerImage = (ImageView) findViewById(R.id.image_header);
 
-        Glide.with(this).load("https://assets.toptal.io/uploads/blog/image/1001/toptal-blog-image-1428390766623.jpg").into(mHeaderImage);
+        Glide.with(this).load("https://assets.toptal.io/uploads/blog/image/1001/toptal-blog-image-1428390766623.jpg").into(headerImage);
     }
 
     @Override
